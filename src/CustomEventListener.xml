@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="caffcode.customeventlistener.CustomEventListener" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Custom Event Listener</name>
+    <description>Listen for custom events on your page</description>
+    <icon/>
+    <properties>
+        <propertyGroup caption="General">
+            <property key="eventList" type="object" isList="true" required="false">
+                <caption>Event Listeners</caption>
+                <description></description>
+                <properties>
+                    <propertyGroup caption="Event Listener">
+                        <property key="eventName" type="expression" required="true" defaultValue="">
+                            <caption>Event Name</caption>
+                            <description></description>
+                            <returnType type="String" />
+                        </property>
+                        <property key="dataAttribute" type="attribute" required="false">
+                            <caption>Data attribute</caption>
+                            <description>Sets a JSON string if there is data</description>
+                            <attributeTypes>
+                                <attributeType name="String" />
+                            </attributeTypes>
+                        </property>
+                        <property key="onEventAction" type="action" required="false">
+                            <caption>On Event</caption>
+                            <description>Executes this after an event has fired</description>
+                        </property>
+                    </propertyGroup>
+                </properties>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
