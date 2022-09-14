@@ -3,7 +3,7 @@
         supportedPlatform="Web"
         xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Custom Event Listener</name>
+    <name>Custom Event Listener (1.0.0)</name>
     <description>Listen for custom events on your page</description>
     <icon/>
     <properties>
