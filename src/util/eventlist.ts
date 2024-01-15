@@ -3,6 +3,7 @@ import { EventListType } from "typings/CustomEventListenerProps";
 import { executeAction } from "./action";
 
 export type EventListenerObj = {
+    on: "document" | "window";
     eventName: string;
     handler: (evt: CustomEvent) => void;
 };
@@ -17,6 +18,7 @@ export const createEventListenerObjects = (list: EventListType[]): EventListener
     );
     if (eventNamesAvailable && dataAttributesAvailable) {
         return list.map(e => ({
+            on: e.eventOn,
             eventName: e.eventName.value as string,
             handler: evt => {
                 if (e.dataAttribute && !e.dataAttribute.readOnly && evt.detail) {

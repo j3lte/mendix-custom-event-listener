@@ -1,0 +1,77 @@
+name: Release new version (On Demand)
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Release version (x.y.z):"
+                required: true
+permissions:
+    contents: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18.5.0"
+                  cache: "npm"
+
+            - name: Set up Deno
+              uses: denoland/setup-deno@v1
+              with:
+                  deno-version: "1.37.1"
+
+            - name: Cache Deno
+              id: cache-deno
+              uses: actions/cache@v3
+              with:
+                  path: ~/.cache/deno
+                  key: ${{ runner.os }}-deno-mx-widget-tooling-0.5.4
+
+            - name: Install npm dependencies
+              run: |
+                  npm install
+
+            - name: Install mx-widget-tooling
+              run: |
+                  deno install -A -n mx-widget-tooling https://raw.githubusercontent.com/j3lte/deno-mx-widget-tooling/0.5.4/cli.ts
+
+            - name: Update version
+              run: |
+                  mx-widget-tooling version ${{ github.event.inputs.version }} --force
+
+            - name: Build
+              run: |
+                  npm run lint:fix && npm run release
+
+            - name: Commit changes
+              id: auto-commit-action
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: Update Version (On Demand)
+                  commit_options: "--no-verify"
+                  tagging_message: ${{ github.event.inputs.version }}
+
+            - name: Release Notes
+              if: steps.auto-commit-action.outputs.changes_detected == 'true'
+              run:
+                  git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>'
+                  --no-merges --always > ".github/RELEASE-TEMPLATE.md"
+
+            - name: Release with Notes
+              if: steps.auto-commit-action.outputs.changes_detected == 'true'
+              uses: softprops/action-gh-release@v1
+              with:
+                  body_path: ".github/RELEASE-TEMPLATE.md"
+                  files: |
+                      dist/${{ github.event.inputs.version }}/caffcode.CustomEventListener.mpk
+                  tag_name: ${{ github.event.inputs.version }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

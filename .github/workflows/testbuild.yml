@@ -1,0 +1,50 @@
+name: Build and test
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - master
+
+permissions:
+    contents: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18.5.0"
+                  cache: "npm"
+
+            - name: Set up Deno
+              uses: denoland/setup-deno@v1
+              with:
+                  deno-version: "1.37.1"
+
+            - name: Cache Deno
+              id: cache-deno
+              uses: actions/cache@v3
+              with:
+                  path: ~/.cache/deno
+                  key: ${{ runner.os }}-deno-mx-widget-tooling-0.5.4
+
+            - name: Install npm dependencies
+              run: |
+                  npm install
+
+            - name: Install mx-widget-tooling
+              run: |
+                  deno install -A -n mx-widget-tooling https://raw.githubusercontent.com/j3lte/deno-mx-widget-tooling/0.5.4/cli.ts
+
+            - name: Build
+              run: |
+                  npm run lint:fix && npm run release && mx-widget-tooling sizes

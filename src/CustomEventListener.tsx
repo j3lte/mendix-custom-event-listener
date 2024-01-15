@@ -11,12 +11,14 @@ export const CustomEventListener: FC<CustomEventListenerContainerProps> = ({ eve
             return;
         }
         events.forEach(eventObj => {
-            document.addEventListener(eventObj.eventName, eventObj.handler);
+            const target = eventObj.on === "window" ? window : document;
+            target.addEventListener(eventObj.eventName, eventObj.handler);
         });
 
         return () => {
             events.forEach(eventObj => {
-                document.removeEventListener(eventObj.eventName, eventObj.handler);
+                const target = eventObj.on === "window" ? window : document;
+                target.removeEventListener(eventObj.eventName, eventObj.handler);
             });
         };
     }, [events]);

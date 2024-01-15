@@ -6,13 +6,17 @@
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
+export type EventOnEnum = "document" | "window";
+
 export interface EventListType {
+    eventOn: EventOnEnum;
     eventName: DynamicValue<string>;
     dataAttribute?: EditableValue<string>;
     onEventAction?: ActionValue;
 }
 
 export interface EventListPreviewType {
+    eventOn: EventOnEnum;
     eventName: string;
     dataAttribute: string;
     onEventAction: {} | null;

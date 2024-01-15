@@ -42,6 +42,7 @@ import { Big } from "big.js";
 export async function FireAction(eventName, eventData) {
 	// BEGIN USER CODE
 	const eventOptions = eventData ? { detail: eventData } : {};
+	// (You could also use `window` instead of `document`)
 	return document.dispatchEvent(new CustomEvent(eventName, eventOptions))
 	// END USER CODE
 }
