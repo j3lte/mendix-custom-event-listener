@@ -38,6 +38,13 @@
                             <description>Executes this after an event has fired</description>
                         </property>
                     </propertyGroup>
+                    <propertyGroup caption="Event Data">
+                        <property key="dataKeys" type="expression" required="false" defaultValue="">
+                            <caption>Keys</caption>
+                            <description>Typically it will pass on data that is in `event.detail` (at least in CustomEvent). If you would like to serialize other data, provide the keys here, comma separated. Example: "data, origin". It is not guaranteed that this would work, so you will have to test this yourself.</description>
+                            <returnType type="String" />
+                        </property>
+                    </propertyGroup>
                 </properties>
             </property>
         </propertyGroup>

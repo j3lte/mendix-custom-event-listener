@@ -13,6 +13,7 @@ export interface EventListType {
     eventName: DynamicValue<string>;
     dataAttribute?: EditableValue<string>;
     onEventAction?: ActionValue;
+    dataKeys?: DynamicValue<string>;
 }
 
 export interface EventListPreviewType {
@@ -20,6 +21,7 @@ export interface EventListPreviewType {
     eventName: string;
     dataAttribute: string;
     onEventAction: {} | null;
+    dataKeys: string;
 }
 
 export interface CustomEventListenerContainerProps {
